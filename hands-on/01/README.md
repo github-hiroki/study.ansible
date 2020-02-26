@@ -20,6 +20,7 @@ localhost
 [all:vars]
 ansible_python_interpreter=/usr/local/bin/python
 ansible_ssh_user=root
+ansible_ssh_port=10022
 ~~~
 `inventory/inventory.ini`にコンテナ内のpython実行パスを`ansible_python_interpreter`で定義しています。また、ターゲットノードのユーザーをrootにするために`ansible_ssh_user`を定義しています。
 

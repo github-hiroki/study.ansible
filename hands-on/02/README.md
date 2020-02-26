@@ -16,6 +16,7 @@
 ~~~yml
 ---
 ansible_ssh_user: root
+ansible_ssh_port: 10022
 ~~~
 ~~~console
 # vi inventory/group_vars/all/python.yml
