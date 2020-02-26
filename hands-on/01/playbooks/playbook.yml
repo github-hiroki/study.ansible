@@ -1,3 +1,4 @@
+---
 - hosts: docker
   tasks:
   - name: create directory
@@ -9,7 +10,7 @@
 
   - name: copy file
     copy:
-      src: sample01.yml
-      dest: /root/work/sample01.yml
+      src: playbook.yml
+      dest: /root/work/playbook.yml
       owner: root
       mode: 0644

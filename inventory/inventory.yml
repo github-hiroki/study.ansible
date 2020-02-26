@@ -1,9 +1,0 @@
-all:
-  children:
-    docker:
-      hosts:
-        localhost:
-          ansible_host: localhost
-  vars:
-    ansible_python_interpreter: /usr/local/bin/python
-    ansible_ssh_user: root

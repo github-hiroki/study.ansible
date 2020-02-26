@@ -1,5 +1,5 @@
 # study.ansible
-Ansibleのお勉強。
+Ansibleの勉強。
 
 ## 環境
 `macOS(10.15.3)`で実行しています。
@@ -40,112 +40,26 @@ dockerのインストールは`Docker Desktop for Mac`にて行いました。
 ### ssh接続
 以下でssh接続することができます。
 ~~~console
-# ssh -i ./id_rsa root@localhost
+# ssh -i ./container/id_rsa root@localhost
 ~~~
 ただし、コンテナは起動するたびに別物となりますので、`~/.ssh/known_hosts`へ書き込みを抑制するために`-o UserKnownHostsFile=/dev/null`をつけましょう。
 また、ログイン時のチェックを行わないようにするために`-o StrictHostKeyChecking=no`もつけちゃいましょう。
 ~~~console
 # ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./container/id_rsa root@localhost
 ~~~
-これらのオプションがansible実行時に指定されるように`ansible.cfg`に設定しておきます。
-~~~console
-# vi ansible.cfg
-~~~
+これらのオプションがansible実行時に指定されるように、各セッション(`hands-on/XX`)に `ansible.cfg` を用意してあります。
 ~~~ini
 [ssh_connection]
-ssh_args = -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./container/id_rsa
+ssh_args = -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../container/id_rsa
 ~~~
 
-## インベントリファイル
-作成したdockerコンテナをターゲットノードにするためのインベントリファイルを作成します。
-~~~console
-# mkdir inventory
-# vi inventory/inventory.yml
-~~~
-~~~yaml
-all:
-  children:
-    docker:
-      hosts:
-        localhost:
-  vars:
-    ansible_python_interpreter: /usr/local/bin/python
-    ansible_ssh_user: root
-~~~
-`inventory/inventory.yml`にコンテナ内のpython実行パスを`ansible_python_interpreter`で定義しています。また、ターゲットノードのユーザーをrootにするために`ansible_ssh_user`を定義しています。
+## ハンズオン
 
-## ansibleコマンド
-### pingを実行してみる
-~~~console
-# pipenv shell
-# ansible -i inventory/inventory.yml docker -m ping
-~~~
-~~~shell-session
-localhost | SUCCESS => {
-    "changed": false,
-    "ping": "pong"
-}
-~~~
-
-### ファイルを作成してみる
-~~~console
-# ansible -i inventory/inventory.yml docker -m file -a 'path=/root/test.txt state=touch mode=0644'
-~~~
-~~~shell-session
-localhost | CHANGED => {
-    "changed": true,
-    "dest": "/root/test.txt",
-    "gid": 0,
-    "group": "root",
-    "mode": "0644",
-    "owner": "root",
-    "size": 0,
-    "state": "file",
-    "uid": 0
-}
-~~~
-
-## ansible-playbookコマンド
-### ディレクトリの生成とファイルコピー
-~~~console
-# vi playbook/sample01.yml
-~~~
-~~~yaml
-- hosts: docker
-  tasks:
-  - name: create directory
-    file:
-      path: /root/work
-      state: directory
-      owner: root
-      mode: 0755
-
-  - name: copy file
-    copy:
-      src: sample01.yml
-      dest: /root/work/sample01.yml
-      owner: root
-      mode: 0644
-~~~
-~~~console
-# ansible-playbook -i inventory/inventory.yml playbooks/sample01.yml
-~~~
-~~~shell-session
-PLAY [docker] *****************************************************************************
-
-TASK [Gathering Facts] ********************************************************************
-ok: [localhost]
-
-TASK [create directory] *******************************************************************
-changed: [localhost]
-
-TASK [copy file] **************************************************************************
-changed: [localhost]
-
-PLAY RECAP ********************************************************************************
-localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-~~~
+### [01.入門](hands-on/01/README.md)
+### [02.インベントリ変数](hands-on/02/README.md)
+### [03.レジスタ変数](hands-on/03/README.md)
 
 ## 感想
-とっても便利でした。
-私自身はサーバー構築する機会はあまりないですが、メンテナンス時のシェルキックに使ってみたいなぁ、などと触りながら思いました。
+Ansibleの勉強のためのリポジトリでしたが、他の開発メンバーへの共有のためにハンズオンという形でまとめていきたいと思います。
+初め触った際の感想は「とっても便利」でした。
+私自身はサーバー構築する機会はあまりないですが、メンテナンス時のシェルキックに使ってみたいなぁ、などと触りながら思っていた気がします。

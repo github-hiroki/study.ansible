@@ -1,0 +1,10 @@
+---
+- hosts: docker
+  tasks:
+  - name: Get list on root directory
+    shell: ls /
+    register: result
+
+  - name: Debug registered variable
+    debug:
+      var: result
