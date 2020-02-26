@@ -1,0 +1,15 @@
+- hosts: docker
+  tasks:
+  - name: create directory
+    file:
+      path: /root/work
+      state: directory
+      owner: root
+      mode: 0755
+
+  - name: copy file
+    copy:
+      src: sample01.yml
+      dest: /root/work/sample01.yml
+      owner: root
+      mode: 0644
