@@ -8,10 +8,13 @@
 ~~~
 
 ## レジスタ変数
+
 レジスタ変数を使用したプレイブックを用意します。
+
 ~~~console
 # vi playbooks/playbook.yml
 ~~~
+
 ~~~yml
 ---
 - hosts: docker

@@ -8,11 +8,14 @@
 ~~~
 
 ## インベントリファイル
+
 作成したdockerコンテナをターゲットノードにするためのインベントリファイルを作成します。
+
 ~~~console
 # mkdir inventory
 # vi inventory/inventory.ini
 ~~~
+
 ~~~ini
 [docker]
 localhost
@@ -22,13 +25,17 @@ ansible_python_interpreter=/usr/local/bin/python
 ansible_ssh_user=root
 ansible_ssh_port=10022
 ~~~
+
 `inventory/inventory.ini`にコンテナ内のpython実行パスを`ansible_python_interpreter`で定義しています。また、ターゲットノードのユーザーをrootにするために`ansible_ssh_user`を定義しています。
 
 ## ansibleコマンド
+
 ### pingを実行してみる
+
 ~~~console
 # ansible -i inventory/inventory.ini docker -m ping
 ~~~
+
 ~~~shell-session
 localhost | SUCCESS => {
     "changed": false,
@@ -37,9 +44,11 @@ localhost | SUCCESS => {
 ~~~
 
 ### ファイルを作成してみる
+
 ~~~console
 # ansible -i inventory/inventory.ini docker -m file -a 'path=/root/sample.txt state=touch mode=0644'
 ~~~
+
 ~~~shell-session
 localhost | CHANGED => {
     "changed": true,
@@ -55,11 +64,14 @@ localhost | CHANGED => {
 ~~~
 
 ## ansible-playbookコマンド
+
 ### ディレクトリの生成とファイルコピー
+
 ~~~console
 # mkdir playbooks
 # vi playbooks/playbook.yml
 ~~~
+
 ~~~yaml
 ---
 - hosts: docker
@@ -78,9 +90,11 @@ localhost | CHANGED => {
       owner: root
       mode: 0644
 ~~~
+
 ~~~console
 # ansible-playbook -i inventory/inventory.ini playbooks/playbook.yml
 ~~~
+
 ~~~shell-session
 PLAY [docker] *****************************************************************************
 

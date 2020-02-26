@@ -1,4 +1,4 @@
-# 03.レジスタ変数
+# 04.ファクト変数の参照とif文
 
 ## 実行環境
 
@@ -8,18 +8,23 @@
 ~~~
 
 ## ファクト変数
+
 ファクト変数はこちらを入力することで取得できます。
+
 ~~~console
 # ansible -i inventory/inventory.ini localhost -m setup
 ~~~
+
 ~~~shell-session
 ...長いので省略
 ~~~
 
 ファクト変数 `ansible_hostname` を使用して `if` 文を含むプレイブックを作成してみます。
+
 ~~~console
 # vi playbooks/playbook.yml
 ~~~
+
 ~~~yml
 ---
 - hosts: docker
