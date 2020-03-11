@@ -43,17 +43,6 @@ dc04
 ansible_python_interpreter: /usr/local/bin/python
 ~~~
 
-dc04 は `Python2` のため設定は実行パスの設定は不要ですが、centos コンテナのログインユーザーが `root` ではありませんので、インベントリにて設定を加えます。
-
-~~~console
-# vi inventory/host_vars/dc04/login.yml
-~~~
-
-~~~yaml
----
-ansible_user: root
-~~~
-
 前章にて ssh 接続するために使用していた以下のログイン設定は不要になります。
 
 ~~~console

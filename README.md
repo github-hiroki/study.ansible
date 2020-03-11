@@ -1,6 +1,9 @@
-# study.ansible
+# Ansible入門
 
-Ansibleの勉強。
+`Ansible` という名前は聞いたことある、どのようなものか何となく知ってはいる、だけれど使ったことない、という人向けのハンズオンです。
+リモート環境に `docker` を使用していますので、`docker` を触ったことがない方には抵抗あるかもしれません。
+
+`docker` ハンズオンはたくさんあると思いますが、いつか作成できたら...いいなぁ（遠い目）
 
 ## 環境
 
@@ -54,17 +57,25 @@ ansible 2.9.5
 ### 実行
 
 ~~~console
-# docker run -h dc01 -d --rm -p 10022:22 python:ansible
-# docker run -h dc02 -d --rm -p 20022:22 python:ansible
-# docker run -h dc03 --name dc03 -d --rm python:3-alpine tail -f /dev/null
-# docker run -h dc04 --name dc04 -d --rm centos/python-27-centos7 tail -f /dev/null
-# docker run -h dc05 --name dc05 -d --rm python:2-buster tail -f /dev/null
+# docker run -h dc01 --name dc01 -d --rm -p 10022:22 python:ansible
+# docker run -h dc02 --name dc02 -d --rm -p 20022:22 python:ansible
+# docker network create study.ansible
+# docker run -h dc03 --name dc03 --network study.ansible -d --rm python:3-alpine tail -f /dev/null
+# docker run --privileged -h dc04 --name dc04 --network study.ansible -d --rm centos:centos7 /sbin/init
+# docker run -h dc05 --name dc05 --network study.ansible -d --rm python:2-buster tail -f /dev/null
 ~~~
 
 ホスト名はそれぞれ `dc01`,`dc02`,`dc03`,`dc04`,`dc05` としています。
 
 `dc03`,`dc04` は [06.docker connection plugin](hands-on/06/README.md) 以降、`dc05` は [09.whenディレクティブ](hands-on/09/README.md) 以降で使用しています。
 こちらのコンテナには ssh による接続はできません。
+
+コンテナを停止する場合は以下を実行してください。起動時に `--rm` オプションを指定していますので、停止すれば削除されます。
+
+~~~console
+# docker stop dc01 dc02 dc03 dc04 dc05
+# docker network rm study.ansible
+~~~
 
 ### ssh接続
 
@@ -91,7 +102,7 @@ ssh_args = -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../
 
 ## ハンズオン
 
-### [01.入門](hands-on/01/README.md)
+### [01.ansibleコマンド](hands-on/01/README.md)
 
 ### [02.インベントリ変数](hands-on/02/README.md)
 
@@ -110,6 +121,8 @@ ssh_args = -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ../../
 ### [09.whenディレクティブ](hands-on/09/README.md)
 
 ### [10.loopディレクティブ](hands-on/10/README.md)
+
+### [11.blockディレクティブ](hands-on/11/README.md)
 
 ## 感想
 

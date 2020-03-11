@@ -40,7 +40,7 @@ ansible_python_interpreter: /usr/local/bin/python
 localhost
 ~~~
 
-[01.入門](../02/README.md)と同じ内容ではあるものの、インベントリ変数を別ファイルに分離した上で、以下を実行することができる。
+[01.ansibleコマンド](../01/README.md)と同じ内容ではあるものの、インベントリ変数を別ファイルに分離した上で、以下を実行することができる。
 
 ~~~console
 # ansible-playbook -i inventory/inventory.ini playbooks/playbook.yml

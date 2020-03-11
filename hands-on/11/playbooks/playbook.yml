@@ -1,0 +1,88 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+
+  - block:
+    - block:
+      - name: Install the OpenRC for Alpine
+        apk:
+          name: openrc
+          state: present
+
+      - name: Mkdir the OpenRC running directory for Alpine
+        file:
+          path: /run/openrc
+          state: directory
+          owner: root
+          mode: 0755
+
+      - name: Touch the OpenRC softlevel file for Alpine
+        file:
+          path: /run/openrc/softlevel
+          state: touch
+          owner: root
+          mode: 0755
+
+      - name: Install the NGINX for Alpine
+        apk:
+          name: nginx
+          state: present
+
+      - name: Mkdir the NGINX pid directory for Alpine
+        file:
+          path: /run/nginx
+          state: directory
+          owner: root
+          mode: 0755
+      when: ansible_os_family == "Alpine"
+
+    - block:
+      - name: Copy the NGINX repository for RedHat
+        copy:
+          src: nginx.repo
+          dest: /etc/yum.repos.d/
+          owner: root
+          mode: 0644
+
+      - name: Install the NGINX for RedHat
+        yum:
+          name: nginx
+          state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Copy the NGINX configuration
+      template:
+        src: default.conf
+        dest: /etc/nginx/conf.d/default.conf
+
+    - block:
+      - name: Start the OpenRC for "Alpine"
+        shell: openrc
+
+      - name: Start the NGINX for "Alpine"
+        service:
+          name: nginx
+          enabled: yes
+          state: restarted
+      when: ansible_os_family == "Alpine"
+
+    - name: Start the NGINX for "RedHat"
+      systemd:
+        name: nginx
+        enabled: yes
+        state: restarted
+      when: ansible_os_family == "RedHat"
+
+    when: |
+      ( ansible_hostname == "dc03" ) or
+      ( ansible_hostname == "dc04" )
+
+  - block:
+    - name: Install the HAProxy
+      apt:
+        name: haproxy
+        state: present
+      when: ansible_os_family == "Debian"
+
+    when: ansible_hostname == "dc05"
