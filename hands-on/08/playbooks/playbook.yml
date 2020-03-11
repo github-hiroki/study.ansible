@@ -1,0 +1,32 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+  - name: Get linux distribution
+    shell: |
+      echo {{ hostvars[ansible_hostname]['ansible_facts']['distribution'] }} {{ hostvars[ansible_hostname]['ansible_facts']['distribution_version'] }}
+    register: dist
+
+  - name: ディストリビュージョンを表示
+    debug:
+      var: dist.stdout
+
+  - name: 大文字に変換
+    debug:
+      var: dist.stdout | upper
+
+  - name: 小文字に変換
+    debug:
+      var: dist.stdout | lower
+
+  - name: 文字列数に変換
+    debug:
+      var: dist.stdout | length
+
+  - name: 変数がない場合はデフォルト値に変換
+    debug:
+      var: dist.stdoutxx | default('デフォルト')
+
+  - name: 配列の結合、文字列も文字の配列みたいなもの
+    debug:
+      var: dist.stdout | join(' ')

@@ -1,0 +1,16 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+  - name: Get linux distribution
+    shell: |
+      {% for name in groups['all'] %}
+        {% if ansible_hostname == name %}
+          echo {{ name }} {{ hostvars[name]['ansible_facts']['distribution'] }} {{ hostvars[name]['ansible_facts']['distribution_version'] }}
+        {% endif %}
+      {% endfor %}
+    register: result
+
+  - name: Debug registered variable
+    debug:
+      var: result.stdout

@@ -1,0 +1,22 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+
+  - name: Install the postfix in RedHat
+    yum:
+      name: postfix
+      state: present
+    when: ansible_os_family == "RedHat"
+
+  - name: Install the postfix in Alpine
+    apk:
+      name: postfix
+      state: present
+    when: ansible_os_family == "Alpine"
+
+  - name: Install the postfix in Debian
+    apt:
+      name: postfix
+      state: present
+    when: ansible_os_family == "Debian"

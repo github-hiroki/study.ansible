@@ -1,0 +1,18 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+
+  - name: Add SourcePod group
+    group:
+      name: sp
+      state: present
+
+  - name: Add developers
+    user:
+      name: "{{ item.name }}"
+      groups: "{{ item.groups }}"
+      state: present
+    loop:
+      - { name: 'hiroki', groups: 'sp' }
+      - { name: 'guest', groups: 'sp' }

@@ -1,0 +1,15 @@
+---
+- hosts: docker
+  connection: docker
+  tasks:
+  - name: Get list on any directory
+    shell: |
+      {% if   ansible_hostname == 'dc03' %} ls /
+      {% elif ansible_hostname == 'dc04' %} ls /root
+      {% else %} ls /etc
+      {% endif %}
+    register: result
+
+  - name: Debug registered variable
+    debug:
+      var: result
