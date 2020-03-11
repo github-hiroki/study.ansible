@@ -38,6 +38,8 @@
     loop:
       - { name: 'hiroki', groups: 'sp' }
       - { name: 'guest', groups: 'sp' }
+    loop_control:
+      label: "{{ item.name }}:{{ item.groups }}"
 ~~~
 
 それでは `Playbook` を実行してみましょう。
@@ -60,12 +62,12 @@ changed: [dc04]
 changed: [dc05]
 
 TASK [Add developers] ***********************************************************************
-changed: [dc03] => (item={'name': 'hiroki', 'groups': 'sp'})
-changed: [dc05] => (item={'name': 'hiroki', 'groups': 'sp'})
-changed: [dc04] => (item={'name': 'hiroki', 'groups': 'sp'})
-changed: [dc03] => (item={'name': 'guest', 'groups': 'sp'})
-changed: [dc05] => (item={'name': 'guest', 'groups': 'sp'})
-changed: [dc04] => (item={'name': 'guest', 'groups': 'sp'})
+changed: [dc03] => (item=hiroki:sp)
+changed: [dc05] => (item=hiroki:sp)
+changed: [dc04] => (item=hiroki:sp)
+changed: [dc03] => (item=guest:sp)
+changed: [dc05] => (item=guest:sp)
+changed: [dc04] => (item=guest:sp)
 
 PLAY RECAP *********************************************************************************
 dc03                       : ok=3    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
@@ -90,12 +92,12 @@ ok: [dc04]
 ok: [dc03]
 
 TASK [Add developers] **********************************************************************
-ok: [dc03] => (item={'name': 'hiroki', 'groups': 'sp'})
-ok: [dc04] => (item={'name': 'hiroki', 'groups': 'sp'})
-ok: [dc05] => (item={'name': 'hiroki', 'groups': 'sp'})
-ok: [dc03] => (item={'name': 'guest', 'groups': 'sp'})
-ok: [dc04] => (item={'name': 'guest', 'groups': 'sp'})
-ok: [dc05] => (item={'name': 'guest', 'groups': 'sp'})
+ok: [dc03] => (item=hiroki:sp)
+ok: [dc04] => (item=hiroki:sp)
+ok: [dc05] => (item=hiroki:sp)
+ok: [dc03] => (item=guest:sp)
+ok: [dc04] => (item=guest:sp)
+ok: [dc05] => (item=guest:sp)
 
 PLAY RECAP *********************************************************************************
 dc03                       : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0

@@ -16,3 +16,5 @@
     loop:
       - { name: 'hiroki', groups: 'sp' }
       - { name: 'guest', groups: 'sp' }
+    loop_control:
+      label: "{{ item.name }}:{{ item.groups }}"
