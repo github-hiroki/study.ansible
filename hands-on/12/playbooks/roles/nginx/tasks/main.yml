@@ -1,0 +1,10 @@
+---
+# NGINXのインストール(Alpine)
+- include_tasks: install_nginx_for_alpine.yml
+  tags: install_nginx_for_alpine
+  when: ansible_os_family == "Alpine"
+
+# NGINXのインストール(RedHat)
+- include_tasks: install_nginx_for_redhat.yml
+  tags: install_nginx_for_redhat
+  when: ansible_os_family == "RedHat"

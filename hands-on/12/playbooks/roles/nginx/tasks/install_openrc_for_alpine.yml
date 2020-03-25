@@ -1,0 +1,28 @@
+---
+# OpenRC のインストール
+- name: install openrc for Alpine
+  apk:
+    name: openrc
+    state: present
+
+# PIDファイル用のディレクトリを作成
+- name: mkdir openrc running directory for Alpine
+  file:
+    path: /run/openrc
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+# 起動回避
+- name: touch openrc softlevel file for Alpine
+  file:
+    path: /run/openrc/softlevel
+    state: touch
+    owner: root
+    group: root
+    mode: 0755
+
+# 起動
+- name: start openrc for Alpine
+  shell: openrc

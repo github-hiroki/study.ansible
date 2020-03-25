@@ -1,0 +1,9 @@
+---
+- name: copy haproxy configuration
+  copy:
+    src: haproxy.cfg
+    dest: /etc/haproxy/haproxy.cfg
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart haproxy for {{ ansible_os_family }}

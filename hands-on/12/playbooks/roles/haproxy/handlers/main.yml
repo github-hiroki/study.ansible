@@ -1,0 +1,5 @@
+---
+- name: restart haproxy for Debian
+  service:
+    name: haproxy
+    state: restarted

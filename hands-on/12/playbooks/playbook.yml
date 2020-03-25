@@ -1,0 +1,10 @@
+---
+- hosts: web
+  connection: docker
+  roles:
+    - nginx
+
+- hosts: proxy
+  connection: docker
+  roles:
+    - haproxy

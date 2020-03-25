@@ -1,0 +1,28 @@
+---
+# ルートディレクトリを作成
+- name: mkdir nginx root directory
+  file:
+    path: /var/www/html
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+# nginx の設定ファイルをコピー、設定ファイルに変更があった場合は nginx を再起動
+- name: copy nginx configuration
+  copy:
+    src: nginx.conf
+    dest: /etc/nginx/conf.d/default.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx for {{ ansible_os_family }}
+
+# htmlファイルを配置
+- name: copy nginx configuration
+  template:
+    src: top.html.j2
+    dest: /var/www/html/top.html
+    owner: root
+    group: root
+    mode: 0644

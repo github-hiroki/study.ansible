@@ -52,6 +52,9 @@
           group: root
           mode: 0755
 
+      - name: start openrc for alpine
+        shell: openrc
+
       - name: install nginx for alpine
         apk:
           name: nginx
@@ -64,9 +67,6 @@
           owner: nginx
           group: nginx
           mode: 0755
-
-      - name: start openrc for alpine
-        shell: openrc
 
       - name: start nginx for alpine
         service:

@@ -1,0 +1,28 @@
+---
+# nginx をサービスとして起動するために必要な OpenRC をインストール
+- include_tasks: install_openrc_for_alpine.yml
+
+# nginx のインストール
+- name: install nginx for Alpine
+  apk:
+    name: nginx
+    state: present
+
+# PIDファイルが作成されるディレクトリを作成
+- name: mkdir nginx pid directory for Alpine
+  file:
+    path: /run/nginx
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0755
+
+# nginx を起動
+- name: start nginx for Alpine
+  service:
+    name: nginx
+    enabled: yes
+    state: started
+
+# nginx の設定変更を適用
+- include_tasks: setup_nginx.yml

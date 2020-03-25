@@ -1,0 +1,25 @@
+---
+# nginx のリポジトリを追加
+- name: copy nginx repository for Redhat
+  copy:
+    src: nginx.repo
+    dest: /etc/yum.repos.d/
+    owner: root
+    group: root
+    mode: 0644
+
+# nginx のインストール
+- name: install nginx for Redhat
+  yum:
+    name: nginx
+    state: present
+
+# nginx を起動
+- name: start nginx for Redhat
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+# nginx の設定変更を適用
+- include_tasks: setup_nginx.yml

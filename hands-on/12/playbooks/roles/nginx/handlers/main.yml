@@ -1,0 +1,9 @@
+---
+- name: restart nginx for Alpine
+  shell: nginx -s reload
+
+- name: restart nginx for RedHat
+  systemd:
+    name: nginx
+    enabled: yes
+    state: restarted

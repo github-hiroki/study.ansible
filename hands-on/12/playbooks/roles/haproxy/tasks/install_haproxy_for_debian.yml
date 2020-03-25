@@ -1,0 +1,12 @@
+---
+- name: install haproxy for Debian
+  apt:
+    name: haproxy
+    state: present
+
+- name: start haproxy for Debian
+  service:
+    name: haproxy
+    state: started
+
+- include_tasks: setup_haproxy.yml
